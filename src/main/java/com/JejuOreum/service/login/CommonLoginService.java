@@ -1,17 +1,16 @@
-package com.JejuOreum.service.loginService;
+package com.JejuOreum.service.login;
 
 import com.JejuOreum.config.restTemplate.HttpRequestManager;
 import com.JejuOreum.constant.AccessAuthority;
 import com.JejuOreum.model.entity.MemberEntity;
 import com.JejuOreum.model.entity.MemberSsnMgmtEntity;
-import com.JejuOreum.model.repository.MemberRepository;
-import com.JejuOreum.model.service.MemberService;
-import com.JejuOreum.model.service.MemberSsnMgmtService;
+import com.JejuOreum.model.service.MemberDbService;
+import com.JejuOreum.model.service.MemberSsnMgmtDbService;
+import com.JejuOreum.service.member.MemberService;
 import com.JejuOreum.user.OAuth2UserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.UUID;
@@ -21,7 +20,7 @@ public abstract class CommonLoginService {
 
     protected HttpRequestManager httpRequestManager;
     private MemberService memberService;
-    private MemberSsnMgmtService memberSsnMgmtService;
+    private MemberDbService memberDbService;
 
     protected String oAuthClientId;
     protected String oAuthClientSecret;
@@ -42,12 +41,12 @@ public abstract class CommonLoginService {
     }
 
     @Autowired
-    public final void setMemberSsnMgmtService(MemberSsnMgmtService memberSsnMgmtService) {
-        this.memberSsnMgmtService = memberSsnMgmtService;
+    public final void setMemberDbService(MemberDbService memberDbService) {
+        this.memberDbService = memberDbService;
     }
 
     // Login 성공 후 처리
-    public void getLoginResult(Map<String, String> reqParams) throws Exception {
+    public MemberEntity getLoginResult(Map<String, String> reqParams) throws Exception {
         OAuth2UserInfo userInfo = this.getUserInfo(reqParams);
 
         MemberEntity memberEntity = MemberEntity.builder()
@@ -58,20 +57,15 @@ public abstract class CommonLoginService {
                 .nickname("test_user")
                 .build();
 
+        return memberEntity;
+        /*
         // Email 기준 신규 회원
-        if(memberService.findByEmail(userInfo.getEmail()).isEmpty()){
-            memberEntity.setCustNo(memberService.maxCustNo()+1);
-            MemberEntity resultEntity = memberService.save(memberEntity);
-
-            MemberSsnMgmtEntity memberSsnMgmtEntity = new MemberSsnMgmtEntity();
-            memberSsnMgmtEntity.setCustNo(resultEntity.getCustNo());
-            memberSsnMgmtEntity.setSessionKey(AccessAuthority.USER.getAuthorityCode());
-            memberSsnMgmtEntity.setSessionKey(UUID.randomUUID().toString());
-            memberSsnMgmtService.save(memberSsnMgmtEntity);
+        if(memberDbService.findByEmail(userInfo.getEmail()).isEmpty()){
+            // TODO : redirect 추가정보입력화면
+        }else{
+            // TODO : redirect 메인화면
         }
-        // TODO : email 기준 신규회원인지 기존회원인지 판단
-        // TODO : 신규회원이면 SEQ 채번하여 DB INSERT, 기존회원이면 DB UPDATE
-        // TODO : 결과에 따라 Redirect url return
+        */
     }
 
     public abstract String getLoginRequestUrl() throws Exception;
