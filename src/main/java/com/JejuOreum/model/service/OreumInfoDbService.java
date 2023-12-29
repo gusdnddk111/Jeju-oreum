@@ -5,12 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OreumInfoService {
+public class OreumInfoDbService {
 
     private OreumInfoRepository oreumInfoRepository;
 
     @Autowired
-    public OreumInfoService(OreumInfoRepository oreumInfoRepository){
+    public OreumInfoDbService(OreumInfoRepository oreumInfoRepository){
         this.oreumInfoRepository = oreumInfoRepository;
     }
 }

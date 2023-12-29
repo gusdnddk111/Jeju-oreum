@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class MemberService {
+public class MemberDbService {
 
     private MemberRepository memberRepository;
 
     @Autowired
-    public MemberService(MemberRepository memberRepository){
+    public MemberDbService(MemberRepository memberRepository){
         this.memberRepository = memberRepository;
     }
 

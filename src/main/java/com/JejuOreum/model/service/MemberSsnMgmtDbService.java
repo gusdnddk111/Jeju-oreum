@@ -1,8 +1,6 @@
 package com.JejuOreum.model.service;
 
-import com.JejuOreum.model.entity.MemberEntity;
 import com.JejuOreum.model.entity.MemberSsnMgmtEntity;
-import com.JejuOreum.model.repository.MemberRepository;
 import com.JejuOreum.model.repository.MemberSsnMgmtRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,12 +8,12 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class MemberSsnMgmtService {
+public class MemberSsnMgmtDbService {
 
     private MemberSsnMgmtRepository memberSsnMgmtRepository;
 
     @Autowired
-    public MemberSsnMgmtService(MemberSsnMgmtRepository memberSsnMgmtRepository){
+    public MemberSsnMgmtDbService(MemberSsnMgmtRepository memberSsnMgmtRepository){
         this.memberSsnMgmtRepository = memberSsnMgmtRepository;
     }
 
