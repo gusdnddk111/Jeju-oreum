@@ -1,28 +1,25 @@
-package com.JejuOreum.service.loginService;
+package com.JejuOreum.service.login;
 
 import com.JejuOreum.user.OAuth2UserInfo;
 import com.JejuOreum.user.OAuth2UserInfoGoogle;
-import com.JejuOreum.user.OAuth2UserInfoKakao;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class KakaoLoginService extends CommonLoginService {
+public class GoogleLoginService extends CommonLoginService {
 
     @Autowired
-    public KakaoLoginService(@Value("${login.kakao.client-id}") String oAuthClientId,
-                             @Value("${login.kakao.client-secret}") String oAuthClientSecret,
-                             @Value("${login.kakao.login-request-url}") String loginRequestUrl,
-                             @Value("${login.kakao.token-request-url}") String tokenRequestUrl,
-                             @Value("${login.kakao.userinfo-request-url}") String userinfoRequestUrl,
-                             @Value("${login.kakao.redirect-uri}") String redirectUri
+    public GoogleLoginService(@Value("${login.google.client-id}") String oAuthClientId,
+                              @Value("${login.google.client-secret}") String oAuthClientSecret,
+                              @Value("${login.google.login-request-url}") String loginRequestUrl,
+                              @Value("${login.google.token-request-url}") String tokenRequestUrl,
+                              @Value("${login.google.userinfo-request-url}") String userinfoRequestUrl,
+                              @Value("${login.google.redirect-uri}") String redirectUri
                              ){
         this.oAuthClientId = oAuthClientId;
         this.oAuthClientSecret = oAuthClientSecret;
@@ -39,6 +36,7 @@ public class KakaoLoginService extends CommonLoginService {
         urlParams.put("response_type","code");
         urlParams.put("client_id", oAuthClientId);
         urlParams.put("redirect_uri", redirectUri);
+        urlParams.put("scope", "email profile");
 
         return httpRequestManager.getUri(loginRequestUrl, urlParams);
     }
@@ -54,11 +52,7 @@ public class KakaoLoginService extends CommonLoginService {
         bodyParams.put("redirect_uri", redirectUri);
         bodyParams.put("code", reqParams.get("code").toString());
 
-        HttpHeaders headerParams = new HttpHeaders();
-        headerParams.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headerParams.add("Accept", "application/json");
-
-        JSONObject responseBody = httpRequestManager.httpRequestPost(tokenRequestUrl, headerParams, bodyParams);
+        JSONObject responseBody = httpRequestManager.httpRequestPost(tokenRequestUrl, bodyParams);
 
         return responseBody;
     }
@@ -66,14 +60,12 @@ public class KakaoLoginService extends CommonLoginService {
     @Override
     public OAuth2UserInfo getUserInfo(Map<String, String> reqParams) throws Exception {
         JSONObject tokenResponse = this.getToken(reqParams);
-        OAuth2UserInfo userInfo = new OAuth2UserInfoKakao(tokenResponse.get("access_token").toString());
+        OAuth2UserInfo userInfo = new OAuth2UserInfoGoogle(tokenResponse.get("access_token").toString());
 
-        HttpHeaders headerParams = new HttpHeaders();
-        headerParams.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headerParams.add("Accept", "application/json");
-        headerParams.set("Authorization", "Bearer " + userInfo.getAccessToken());
+        Map<String, String> urlParams = new HashMap<>();
+        urlParams.put("access_token", tokenResponse.get("access_token").toString());
 
-        JSONObject result = httpRequestManager.httpRequestPost(userinfoRequestUrl, headerParams, null);
+        JSONObject result = httpRequestManager.httpRequestGet(userinfoRequestUrl, urlParams);
         userInfo.setUserInfo(result);
 
         return userInfo;

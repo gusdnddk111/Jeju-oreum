@@ -1,6 +1,5 @@
-package com.JejuOreum.service.loginService;
+package com.JejuOreum.service.login;
 
-import com.JejuOreum.config.restTemplate.HttpRequestManager;
 import com.JejuOreum.user.OAuth2UserInfo;
 import com.JejuOreum.user.OAuth2UserInfoNaver;
 import org.json.simple.JSONObject;

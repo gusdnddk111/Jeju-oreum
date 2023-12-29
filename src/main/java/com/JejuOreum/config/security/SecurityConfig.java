@@ -1,7 +1,6 @@
 package com.JejuOreum.config.security;
 
-import com.JejuOreum.constant.AccessAuthority;
-import com.JejuOreum.model.service.MemberSsnMgmtService;
+import com.JejuOreum.model.service.MemberSsnMgmtDbService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,11 +20,11 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private MemberSsnMgmtService memberSsnMgmtService;
+    private MemberSsnMgmtDbService memberSsnMgmtDbService;
 
     @Autowired
-    public SecurityConfig(MemberSsnMgmtService memberSsnMgmtService){
-        this.memberSsnMgmtService = memberSsnMgmtService;
+    public SecurityConfig(MemberSsnMgmtDbService memberSsnMgmtDbService){
+        this.memberSsnMgmtDbService = memberSsnMgmtDbService;
     }
 
     @Bean
@@ -35,7 +34,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.addFilterBefore(new SessionCheckFilter(memberSsnMgmtService), UsernamePasswordAuthenticationFilter.class)
+        http.addFilterBefore(new SessionCheckFilter(memberSsnMgmtDbService), UsernamePasswordAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(antMatcher("/static/**")).permitAll()

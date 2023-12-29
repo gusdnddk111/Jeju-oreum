@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@DynamicInsert
+//@DynamicInsert
 @IdClass(MemberEntityId.class)
 @Table(name = "MEMBER", schema = "OREUM")
 public class MemberEntity {
