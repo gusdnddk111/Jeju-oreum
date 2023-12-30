@@ -1,5 +1,6 @@
 package com.JejuOreum.service.login;
 
+import com.JejuOreum.properties.LoginApiProperties;
 import com.JejuOreum.user.OAuth2UserInfo;
 import com.JejuOreum.user.OAuth2UserInfoKakao;
 import org.json.simple.JSONObject;
@@ -16,19 +17,16 @@ import java.util.Map;
 public class KakaoLoginService extends CommonLoginService {
 
     @Autowired
-    public KakaoLoginService(@Value("${login.kakao.client-id}") String oAuthClientId,
-                             @Value("${login.kakao.client-secret}") String oAuthClientSecret,
-                             @Value("${login.kakao.login-request-url}") String loginRequestUrl,
-                             @Value("${login.kakao.token-request-url}") String tokenRequestUrl,
-                             @Value("${login.kakao.userinfo-request-url}") String userinfoRequestUrl,
-                             @Value("${login.kakao.redirect-uri}") String redirectUri
-                             ){
-        this.oAuthClientId = oAuthClientId;
-        this.oAuthClientSecret = oAuthClientSecret;
-        this.loginRequestUrl = loginRequestUrl;
-        this.tokenRequestUrl = tokenRequestUrl;
-        this.userinfoRequestUrl = userinfoRequestUrl;
-        this.redirectUri = redirectUri;
+    public KakaoLoginService(LoginApiProperties loginApiProperties){
+
+        LoginApiProperties.Property property = loginApiProperties.getKakao();
+
+        this.oAuthClientId = property.getClientId();
+        this.oAuthClientSecret = property.getClientSecret();
+        this.loginRequestUrl = property.getLoginRequestUrl();
+        this.tokenRequestUrl = property.getTokenRequestUrl();
+        this.userinfoRequestUrl = property.getUserinfoRequestUrl();
+        this.redirectUri = property.getRedirectUri();
     }
 
     @Override

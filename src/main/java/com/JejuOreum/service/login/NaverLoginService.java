@@ -1,5 +1,6 @@
 package com.JejuOreum.service.login;
 
+import com.JejuOreum.properties.LoginApiProperties;
 import com.JejuOreum.user.OAuth2UserInfo;
 import com.JejuOreum.user.OAuth2UserInfoNaver;
 import org.json.simple.JSONObject;
@@ -16,19 +17,16 @@ import java.util.UUID;
 public class NaverLoginService extends CommonLoginService {
 
     @Autowired
-    public NaverLoginService(@Value("${login.naver.client-id}") String oAuthClientId,
-                             @Value("${login.naver.client-secret}") String oAuthClientSecret,
-                             @Value("${login.naver.login-request-url}") String loginRequestUrl,
-                             @Value("${login.naver.token-request-url}") String tokenRequestUrl,
-                             @Value("${login.naver.userinfo-request-url}") String userinfoRequestUrl,
-                             @Value("${login.naver.redirect-uri}") String redirectUri
-                             ){
-        this.oAuthClientId = oAuthClientId;
-        this.oAuthClientSecret = oAuthClientSecret;
-        this.loginRequestUrl = loginRequestUrl;
-        this.tokenRequestUrl = tokenRequestUrl;
-        this.userinfoRequestUrl = userinfoRequestUrl;
-        this.redirectUri = redirectUri;
+    public NaverLoginService(LoginApiProperties loginApiProperties){
+
+        LoginApiProperties.Property property = loginApiProperties.getNaver();
+
+        this.oAuthClientId = property.getClientId();
+        this.oAuthClientSecret = property.getClientSecret();
+        this.loginRequestUrl = property.getLoginRequestUrl();
+        this.tokenRequestUrl = property.getTokenRequestUrl();
+        this.userinfoRequestUrl = property.getUserinfoRequestUrl();
+        this.redirectUri = property.getRedirectUri();
     }
 
     @Override

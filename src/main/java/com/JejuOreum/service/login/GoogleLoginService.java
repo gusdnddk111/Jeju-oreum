@@ -1,5 +1,6 @@
 package com.JejuOreum.service.login;
 
+import com.JejuOreum.properties.LoginApiProperties;
 import com.JejuOreum.user.OAuth2UserInfo;
 import com.JejuOreum.user.OAuth2UserInfoGoogle;
 import org.json.simple.JSONObject;
@@ -14,19 +15,16 @@ import java.util.Map;
 public class GoogleLoginService extends CommonLoginService {
 
     @Autowired
-    public GoogleLoginService(@Value("${login.google.client-id}") String oAuthClientId,
-                              @Value("${login.google.client-secret}") String oAuthClientSecret,
-                              @Value("${login.google.login-request-url}") String loginRequestUrl,
-                              @Value("${login.google.token-request-url}") String tokenRequestUrl,
-                              @Value("${login.google.userinfo-request-url}") String userinfoRequestUrl,
-                              @Value("${login.google.redirect-uri}") String redirectUri
-                             ){
-        this.oAuthClientId = oAuthClientId;
-        this.oAuthClientSecret = oAuthClientSecret;
-        this.loginRequestUrl = loginRequestUrl;
-        this.tokenRequestUrl = tokenRequestUrl;
-        this.userinfoRequestUrl = userinfoRequestUrl;
-        this.redirectUri = redirectUri;
+    public GoogleLoginService(LoginApiProperties loginApiProperties){
+
+        LoginApiProperties.Property property = loginApiProperties.getGoogle();
+
+        this.oAuthClientId = property.getClientId();
+        this.oAuthClientSecret = property.getClientSecret();
+        this.loginRequestUrl = property.getLoginRequestUrl();
+        this.tokenRequestUrl = property.getTokenRequestUrl();
+        this.userinfoRequestUrl = property.getUserinfoRequestUrl();
+        this.redirectUri = property.getRedirectUri();
     }
 
     @Override
