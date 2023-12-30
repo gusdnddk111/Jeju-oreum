@@ -46,7 +46,7 @@ public class LoginController {
 
     @GetMapping("/login/google/api/request")
     public ResponseEntity<Object> loginRequestOfGoogle() throws Exception{
-        log.info("asdf");
+
         String url = googleLoginService.getLoginRequestUrl();
 
         URI redirectUri = new URI(url);
