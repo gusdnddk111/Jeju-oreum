@@ -60,7 +60,7 @@ public class LoginController {
     @GetMapping("/login/google/api/result")
     public JSONObject googleLoginResult(@RequestParam Map<String, String> reqParams) throws Exception{
         MemberEntity memberEntity = googleLoginService.getLoginResult(reqParams);
-        JSONObject result = (JSONObject) parser.parse(memberEntity.toString());
+        JSONObject result = (JSONObject) parser.parse(mapper.writeValueAsString(memberEntity));
 
         return result;
     }
@@ -81,7 +81,7 @@ public class LoginController {
     @GetMapping("/login/naver/api/result")
     public JSONObject naverLoginResult(@RequestParam Map<String, String> reqParams) throws Exception {
         MemberEntity memberEntity = naverLoginService.getLoginResult(reqParams);
-        JSONObject result = (JSONObject) parser.parse(memberEntity.toString());
+        JSONObject result = (JSONObject) parser.parse(mapper.writeValueAsString(memberEntity));
 
         return result;
     }
@@ -100,7 +100,7 @@ public class LoginController {
     @GetMapping("/login/kakao/api/result")
     public JSONObject kakaoLoginResult(@RequestParam Map<String, String> reqParams) throws Exception {
         MemberEntity memberEntity = kakaoLoginService.getLoginResult(reqParams);
-        JSONObject result = (JSONObject) parser.parse(memberEntity.toString());
+        JSONObject result = (JSONObject) parser.parse(mapper.writeValueAsString(memberEntity));
 
         return result;
     }
