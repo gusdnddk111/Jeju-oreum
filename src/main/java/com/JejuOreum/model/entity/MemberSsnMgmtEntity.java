@@ -4,7 +4,10 @@ import com.JejuOreum.constant.AccessAuthority;
 import com.JejuOreum.model.entityId.MemberSsnMgmtEntityId;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
@@ -24,14 +27,15 @@ public class MemberSsnMgmtEntity {
     @Column(name = "CUST_NO", updatable = false)
     private Long custNo;
 
-    @Column(name = "SESSION_KEY")
-    private String sessionKey;
+    @Column(name = "REFRESH_TOKEN")
+    private String refreshToken;
 
     @Column(name = "ACCESS_AUTHORITY")
     private String accessAuthority;
 
     /* 등록일시 TIMESTAMP */
     @Column(name = "REG_DATE", updatable = false)
+    @CreationTimestamp
     private LocalDateTime regDate;
 
     /* 등록자ID VARCHAR(20) */
@@ -40,6 +44,7 @@ public class MemberSsnMgmtEntity {
 
     /* 수정일시 TIMESTAMP */
     @Column(name = "UPD_DATE")
+    @UpdateTimestamp
     private LocalDateTime updDate;
 
     /* 수정자ID VARCHAR(20) */

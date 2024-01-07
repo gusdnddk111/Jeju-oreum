@@ -6,7 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -36,6 +39,7 @@ public class OreumVisitEntity {
 
     /* 등록일시 TIMESTAMP */
     @Column(name = "REG_DATE", updatable = false)
+    @CreationTimestamp
     private LocalDateTime regDate;
 
     /* 등록자ID VARCHAR(20) */
@@ -44,6 +48,7 @@ public class OreumVisitEntity {
 
     /* 수정일시 TIMESTAMP */
     @Column(name = "UPD_DATE")
+    @UpdateTimestamp
     private LocalDateTime updDate;
 
     /* 수정자ID VARCHAR(20) */

@@ -4,7 +4,10 @@ import com.JejuOreum.constant.OAuth2Provider;
 import com.JejuOreum.model.entityId.MemberEntityId;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -14,7 +17,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-//@DynamicInsert
+@DynamicInsert
 @IdClass(MemberEntityId.class)
 @Table(name = "MEMBER", schema = "OREUM")
 public class MemberEntity {
@@ -52,6 +55,7 @@ public class MemberEntity {
 
     /* 등록일시 TIMESTAMP */
     @Column(name = "REG_DATE", updatable = false)
+    @CreationTimestamp
     private LocalDateTime regDate;
 
     /* 등록자ID VARCHAR(20) */
@@ -60,6 +64,7 @@ public class MemberEntity {
 
     /* 수정일시 TIMESTAMP */
     @Column(name = "UPD_DATE")
+    @UpdateTimestamp
     private LocalDateTime updDate;
 
     /* 수정자ID VARCHAR(20) */
