@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenProvider {
 
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24; //access 24시간
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60;// * 60 * 24; //access 24시간
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 365 * 99; //access 99년 (반영구)
     private final Key secretKey;
 
@@ -91,18 +91,18 @@ public class JwtTokenProvider {
     // 토큰 정보를 검증하는 메서드
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
+            Jws<Claims> claimJws = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
+            if(claimJws.getBody().getExpiration().after(new Date())){
+                throw new JwtException("Expired JWT Token");
+            }
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("Invalid JWT Token", e);
-        } catch (ExpiredJwtException e) {
-            log.info("Expired JWT Token", e);
+            throw new MalformedJwtException("Invalid JWT Token");
         } catch (UnsupportedJwtException e) {
-            log.info("Unsupported JWT Token", e);
-        } catch (IllegalArgumentException e) {
-            log.info("JWT claims string is empty.", e);
+            throw new UnsupportedJwtException("Unsupported JWT Token");
+        } catch (Exception e) {
+            throw e;
         }
-        return false;
     }
 
     private Claims parseClaims(String accessToken) {

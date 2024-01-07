@@ -1,6 +1,10 @@
 package com.JejuOreum.config.exceptionHandler;
 
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +20,21 @@ import java.util.Date;
 @ControllerAdvice
 public class CustomExceptionHandler {
 
+    @ExceptionHandler(SocketTimeoutException.class)
+    public final ResponseEntity<Object> handleUserNotFoundExceptions(Exception ex, WebRequest request) {
+        log.error("[ERROR] : "+ex.getMessage());
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity(exceptionResponse, HttpStatus.GATEWAY_TIMEOUT);
+    }
+
+    @ExceptionHandler({MalformedJwtException.class, UnsupportedJwtException.class, JwtException.class})
+    public final ResponseEntity<Object> handleMalformedJwtException(Exception ex, WebRequest request) {
+        log.error("[ERROR] : "+ex.getMessage());
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity(exceptionResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+
     //Default exception
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request){
@@ -24,11 +43,7 @@ public class CustomExceptionHandler {
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),request.getDescription(false));
         return new ResponseEntity(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    @ExceptionHandler(SocketTimeoutException.class)
-    public final ResponseEntity<Object> handleUserNotFoundExceptions(Exception ex, WebRequest request) {
-        log.error("[ERROR] : "+ex.getMessage());
-        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
-        return new ResponseEntity(exceptionResponse, HttpStatus.GATEWAY_TIMEOUT);
-    }
 }
+
+
+

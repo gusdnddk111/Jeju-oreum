@@ -1,7 +1,9 @@
 package com.JejuOreum.config.security;
 
+import com.JejuOreum.config.exceptionHandler.JwtExceptionFilter;
 import com.JejuOreum.config.jwt.JwtAuthenticationFilter;
 import com.JejuOreum.config.jwt.JwtTokenProvider;
+import com.JejuOreum.constant.AccessAuthority;
 import com.JejuOreum.model.service.MemberSsnMgmtDbService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +37,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((requests) -> requests
                 .requestMatchers(antMatcher("/static/**")).permitAll()
                 .requestMatchers(antMatcher("/login/**")).permitAll()
                 .requestMatchers(antMatcher("/**")).permitAll()
-                //.requestMatchers(antMatcher("/")).hasAnyAuthority(AccessAuthority.USER.getRole(), AccessAuthority.ADMIN.getRole())
+                .requestMatchers(antMatcher("/")).hasAnyAuthority(AccessAuthority.USER.getAuthorityCode(), AccessAuthority.ADMIN.getAuthorityCode())
                 .anyRequest().authenticated()
                 );
 

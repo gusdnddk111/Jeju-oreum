@@ -19,7 +19,8 @@ public class OreumInfoController {
     @GetMapping("/oreum/insert")
     public JSONObject oreumInfoInsert() throws Exception{
 
-        oreumService.insertOreunInfo();
+        //oreumService.insertOreunInfo();
+        System.out.println("success");
 
         return null;
     }
