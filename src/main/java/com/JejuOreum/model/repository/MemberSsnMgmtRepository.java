@@ -9,5 +9,4 @@ import java.util.Optional;
 
 public interface MemberSsnMgmtRepository extends JpaRepository<MemberSsnMgmtEntity, MemberSsnMgmtEntityId> {
      Optional<MemberSsnMgmtEntity> findByCustNo(Long custNo);
-     Optional<MemberSsnMgmtEntity> findBySessionKey(String sessionKey);
 }

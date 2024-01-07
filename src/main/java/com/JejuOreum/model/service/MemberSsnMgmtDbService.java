@@ -22,11 +22,6 @@ public class MemberSsnMgmtDbService {
         return memberSsnMgmtEntity;
     }
 
-    public Optional<MemberSsnMgmtEntity> findBySessionKey(String sessionKey){
-        Optional<MemberSsnMgmtEntity> memberSsnMgmtEntity = memberSsnMgmtRepository.findBySessionKey(sessionKey);
-        return memberSsnMgmtEntity;
-    }
-
     public MemberSsnMgmtEntity save(MemberSsnMgmtEntity memberSsnMgmtEntity){
         MemberSsnMgmtEntity resultEntity = memberSsnMgmtRepository.save(memberSsnMgmtEntity);
         return resultEntity;

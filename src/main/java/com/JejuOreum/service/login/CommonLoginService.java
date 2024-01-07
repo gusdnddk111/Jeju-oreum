@@ -1,11 +1,8 @@
 package com.JejuOreum.service.login;
 
 import com.JejuOreum.config.restTemplate.HttpRequestManager;
-import com.JejuOreum.constant.AccessAuthority;
 import com.JejuOreum.model.entity.MemberEntity;
-import com.JejuOreum.model.entity.MemberSsnMgmtEntity;
 import com.JejuOreum.model.service.MemberDbService;
-import com.JejuOreum.model.service.MemberSsnMgmtDbService;
 import com.JejuOreum.service.member.MemberService;
 import com.JejuOreum.user.OAuth2UserInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +10,6 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
-import java.util.UUID;
 
 @Slf4j
 public abstract class CommonLoginService {
@@ -54,7 +50,7 @@ public abstract class CommonLoginService {
                 .email(userInfo.getEmail())
                 .birthday(userInfo.getBirthday())
                 .genderCd(userInfo.getGenderCd())
-                .nickname("test_user")
+                //.nickname("test_user")
                 .build();
 
         return memberEntity;
