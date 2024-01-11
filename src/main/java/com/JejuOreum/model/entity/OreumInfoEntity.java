@@ -36,8 +36,8 @@ public class OreumInfoEntity {
     @Column(name = "NEW_ADDRESS")
     private String newAddress;
 
-    @Column(name = "LONGTITUDE")
-    private Float longtitude;
+    @Column(name = "LONGITUDE")
+    private Float longitude;
 
     @Column(name = "LATITUDE")
     private Float latitude;
