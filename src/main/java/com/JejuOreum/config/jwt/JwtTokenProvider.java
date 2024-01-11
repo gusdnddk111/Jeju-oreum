@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenProvider {
 
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60;// * 60 * 24; //access 24시간
-    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 365 * 99; //access 99년 (반영구)
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 10; //access 24시간 (개발 중엔 30일로)
+    //private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 365 * 99; //access 99년 (반영구)
     private final Key secretKey;
 
     public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
@@ -46,10 +46,8 @@ public class JwtTokenProvider {
                 .compact();
 
         // Refresh Token 생성
-        Date refreshTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         String refreshToken = Jwts.builder()
                 .setSubject(custNo.toString())
-                //.setExpiration(refreshTokenExpiresIn)
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
 
@@ -92,14 +90,14 @@ public class JwtTokenProvider {
     public boolean validateToken(String token) {
         try {
             Jws<Claims> claimJws = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
-            if(claimJws.getBody().getExpiration().after(new Date())){
+            if(claimJws.getBody().getExpiration().before(new Date())){
                 throw new JwtException("Expired JWT Token");
             }
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            throw new MalformedJwtException("Invalid JWT Token");
+            throw new JwtException("Invalid JWT Token");
         } catch (UnsupportedJwtException e) {
-            throw new UnsupportedJwtException("Unsupported JWT Token");
+            throw new JwtException("Unsupported JWT Token");
         } catch (Exception e) {
             throw e;
         }
