@@ -83,7 +83,7 @@ public class LoginController {
     */
 
     @GetMapping("/login/request")
-    public ResponseEntity<Object> loginRequest(@RequestParam Map<String, String> reqParams) throws Exception{
+    public JSONObject loginRequest(@RequestParam Map<String, String> reqParams) throws Exception{
         String url="";
         String siteCd = reqParams.get("siteCd").toString();
 
@@ -97,12 +97,16 @@ public class LoginController {
             throw new Exception("지원하지 않는 로그인 사이트입니다.");
         }
 
-        URI redirectUri = new URI(url);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(redirectUri);
-        httpHeaders.set("redirectUrl", url);
+        JSONObject result = new JSONObject();
+        result.put("redirectUrl", url);
+//        URI redirectUri = new URI(url);
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.setLocation(redirectUri);
+//        httpHeaders.set("redirectUrl", url);
 
-        return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+
+
+        return result;
     }
 
     @GetMapping("/login/google/result")
