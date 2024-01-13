@@ -16,5 +16,6 @@ public interface MemberRepository extends JpaRepository<MemberEntity, MemberEnti
     @Query(value = "SELECT COALESCE(MAX(u.custNo),0) FROM MemberEntity u")
     Long findMaxCustNo();
 
+    Optional<MemberEntity> findByCustNo(Long custNo);
 }
 

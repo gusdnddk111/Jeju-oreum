@@ -2,8 +2,7 @@ package com.JejuOreum.service.login;
 
 import com.JejuOreum.config.restTemplate.HttpRequestManager;
 import com.JejuOreum.model.entity.MemberEntity;
-import com.JejuOreum.model.service.MemberDbService;
-import com.JejuOreum.service.member.MemberService;
+import com.JejuOreum.model.service.MemberService;
 import com.JejuOreum.user.OAuth2UserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
@@ -16,7 +15,6 @@ public abstract class CommonLoginService {
 
     protected HttpRequestManager httpRequestManager;
     private MemberService memberService;
-    private MemberDbService memberDbService;
 
     protected String oAuthClientId;
     protected String oAuthClientSecret;
@@ -37,8 +35,8 @@ public abstract class CommonLoginService {
     }
 
     @Autowired
-    public final void setMemberDbService(MemberDbService memberDbService) {
-        this.memberDbService = memberDbService;
+    public final void setMemberDbService(MemberService memberService) {
+        this.memberService = memberService;
     }
 
     // Login 성공 후 처리

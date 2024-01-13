@@ -4,7 +4,7 @@ import com.JejuOreum.config.exceptionHandler.JwtExceptionFilter;
 import com.JejuOreum.config.jwt.JwtAuthenticationFilter;
 import com.JejuOreum.config.jwt.JwtTokenProvider;
 import com.JejuOreum.constant.AccessAuthority;
-import com.JejuOreum.model.service.MemberSsnMgmtDbService;
+import com.JejuOreum.model.service.MemberSsnMgmtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,12 +25,12 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private MemberSsnMgmtDbService memberSsnMgmtDbService;
+    private MemberSsnMgmtService memberSsnMgmtService;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public SecurityConfig(MemberSsnMgmtDbService memberSsnMgmtDbService, JwtTokenProvider jwtTokenProvider){
-        this.memberSsnMgmtDbService = memberSsnMgmtDbService;
+    public SecurityConfig(MemberSsnMgmtService memberSsnMgmtService, JwtTokenProvider jwtTokenProvider){
+        this.memberSsnMgmtService = memberSsnMgmtService;
         this.jwtTokenProvider = jwtTokenProvider;
     }
 

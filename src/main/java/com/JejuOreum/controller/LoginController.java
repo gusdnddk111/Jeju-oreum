@@ -2,10 +2,10 @@ package com.JejuOreum.controller;
 
 import com.JejuOreum.config.jwt.TokenInfo;
 import com.JejuOreum.model.entity.MemberEntity;
+import com.JejuOreum.model.service.MemberService;
 import com.JejuOreum.service.login.GoogleLoginService;
 import com.JejuOreum.service.login.KakaoLoginService;
 import com.JejuOreum.service.login.NaverLoginService;
-import com.JejuOreum.service.member.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
@@ -158,7 +158,6 @@ public class LoginController {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Authorization",tokenInfo.getGrantType() + " " + tokenInfo.getAccessToken());
 
-        return ResponseEntity.ok()
-                .headers(responseHeaders).build();
+        return ResponseEntity.ok().headers(responseHeaders).build();
     }
 }

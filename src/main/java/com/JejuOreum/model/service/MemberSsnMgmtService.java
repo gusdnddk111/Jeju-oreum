@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class MemberSsnMgmtDbService {
+public class MemberSsnMgmtService {
 
     private MemberSsnMgmtRepository memberSsnMgmtRepository;
 
     @Autowired
-    public MemberSsnMgmtDbService(MemberSsnMgmtRepository memberSsnMgmtRepository){
+    public MemberSsnMgmtService(MemberSsnMgmtRepository memberSsnMgmtRepository){
         this.memberSsnMgmtRepository = memberSsnMgmtRepository;
     }
 
