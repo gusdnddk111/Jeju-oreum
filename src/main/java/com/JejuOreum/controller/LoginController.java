@@ -100,6 +100,7 @@ public class LoginController {
         URI redirectUri = new URI(url);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(redirectUri);
+        httpHeaders.set("redirectUrl", url);
 
         return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
     }
