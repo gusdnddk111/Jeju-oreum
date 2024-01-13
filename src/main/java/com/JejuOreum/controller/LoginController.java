@@ -104,8 +104,6 @@ public class LoginController {
 //        httpHeaders.setLocation(redirectUri);
 //        httpHeaders.set("redirectUrl", url);
 
-
-
         return result;
     }
 
