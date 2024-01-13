@@ -1,7 +1,7 @@
 package com.JejuOreum.controller;
 
 import com.JejuOreum.model.entity.OreumInfoEntity;
-import com.JejuOreum.service.oreum.OreumService;
+import com.JejuOreum.model.service.OreumInfoService;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,36 +15,36 @@ import java.util.Map;
 @RestController
 public class OreumInfoController {
 
-    private OreumService oreumService;
-    private JSONParser parser;
+    private final OreumInfoService oreumInfoService;
+    private final JSONParser parser;
 
     @Autowired
-    public OreumInfoController(OreumService oreumService){
-        this.oreumService = oreumService;
+    public OreumInfoController(OreumInfoService oreumInfoService){
+        this.oreumInfoService = oreumInfoService;
         parser = new JSONParser();
     }
 
     @GetMapping("/oreum/insert")
     public JSONObject oreumInfoInsert() throws Exception{
 
-        oreumService.insertOreunInfo();
+        oreumInfoService.insertOreunInfo();
         //System.out.println("success");
 
         return null;
     }
 
     @GetMapping("/oreum/getAllOreumInfo")
-    public List<OreumInfoEntity> getAllOreumInfo() throws Exception{
-        return oreumService.getAllOreumInfo();
+    public List<OreumInfoEntity> getAllOreumInfo() throws Exception {
+        return oreumInfoService.getAllOreumInfo();
     }
 
     @GetMapping("/oreum/getOreumInfoByPosition")
-    public List<OreumInfoEntity> getOreumInfoByPosition(@RequestParam Map<String, String> reqParams) throws Exception{
+    public List<OreumInfoEntity> getOreumInfoByPosition(@RequestParam Map<String, String> reqParams) throws Exception {
         float minLongitude = Float.parseFloat(reqParams.get("minLongitude").toString());
         float maxLongitude = Float.parseFloat(reqParams.get("maxLongitude").toString());
         float minLatitude = Float.parseFloat(reqParams.get("minLatitude").toString());
         float maxLatitude = Float.parseFloat(reqParams.get("maxLatitude").toString());
 
-        return oreumService.getOreumInfoByPosition(minLongitude, maxLongitude, minLatitude, maxLatitude);
+        return oreumInfoService.getOreumInfoByPosition(minLongitude, maxLongitude, minLatitude, maxLatitude);
     }
 }
